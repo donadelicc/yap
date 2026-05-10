@@ -1,0 +1,43 @@
+name: yap
+options:
+  bundleIdPrefix: com.donadelicc
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: YES
+
+targets:
+  yap:
+    type: application
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: App
+    info:
+      path: App/Info.plist
+      properties:
+        LSUIElement: true
+        CFBundleDisplayName: yap
+        CFBundleShortVersionString: 0.0.1
+        CFBundleVersion: "1"
+        NSMicrophoneUsageDescription: "yap needs microphone access to record your voice for dictation."
+        NSAppleEventsUsageDescription: "yap uses keyboard simulation to paste transcribed text into the focused app."
+    entitlements:
+      path: App/yap.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+        com.apple.security.device.audio-input: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.donadelicc.yap
+        PRODUCT_NAME: yap
+        MARKETING_VERSION: "0.0.1"
+        CURRENT_PROJECT_VERSION: "1"
