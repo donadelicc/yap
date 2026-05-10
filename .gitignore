@@ -1,0 +1,11 @@
+.DS_Store
+.build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+Package.resolved
+*.app
+*.dSYM
+
+# XcodeGen-generated; regenerate locally via ./bootstrap.sh
+yap.xcodeproj/
