@@ -1,0 +1,9 @@
+{
+  "models": [
+    { "id": "openai_whisper-tiny.en",  "kind": "stt", "displayName": "Whisper Tiny (English)",  "sizeBytes":  77000000, "language": "en", "downloadURL": "https://huggingface.co/argmaxinc/whisperkit-coreml/resolve/main/openai_whisper-tiny.en.zip" },
+    { "id": "openai_whisper-base.en",  "kind": "stt", "displayName": "Whisper Base (English)",  "sizeBytes": 142000000, "language": "en", "downloadURL": "https://huggingface.co/argmaxinc/whisperkit-coreml/resolve/main/openai_whisper-base.en.zip" },
+    { "id": "openai_whisper-small.en", "kind": "stt", "displayName": "Whisper Small (English)", "sizeBytes": 466000000, "language": "en", "downloadURL": "https://huggingface.co/argmaxinc/whisperkit-coreml/resolve/main/openai_whisper-small.en.zip" },
+    { "id": "mlx-community/Qwen2.5-0.5B-Instruct-4bit", "kind": "llm", "displayName": "Qwen 2.5 0.5B (Q4)", "sizeBytes":  400000000, "language": null },
+    { "id": "mlx-community/Qwen2.5-1.5B-Instruct-4bit", "kind": "llm", "displayName": "Qwen 2.5 1.5B (Q4)", "sizeBytes": 1000000000, "language": null }
+  ]
+}
