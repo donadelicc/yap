@@ -14,6 +14,28 @@ settings:
     DEVELOPMENT_TEAM: ""
     ENABLE_HARDENED_RUNTIME: YES
 
+packages:
+  AudioRecorder:
+    path: Packages/AudioRecorder
+  Core:
+    path: Packages/Core
+  Hotkey:
+    path: Packages/Hotkey
+  MenuBarUI:
+    path: Packages/MenuBarUI
+  ModelStore:
+    path: Packages/ModelStore
+  Permissions:
+    path: Packages/Permissions
+  Settings:
+    path: Packages/Settings
+  SettingsUI:
+    path: Packages/SettingsUI
+  TextInjector:
+    path: Packages/TextInjector
+  Transcription:
+    path: Packages/Transcription
+
 targets:
   yap:
     type: application
@@ -21,6 +43,17 @@ targets:
     deploymentTarget: "13.0"
     sources:
       - path: App
+    dependencies:
+      - package: AudioRecorder
+      - package: Core
+      - package: Hotkey
+      - package: MenuBarUI
+      - package: ModelStore
+      - package: Permissions
+      - package: Settings
+      - package: SettingsUI
+      - package: TextInjector
+      - package: Transcription
     info:
       path: App/Info.plist
       properties:
