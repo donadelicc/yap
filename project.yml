@@ -14,6 +14,30 @@ settings:
     DEVELOPMENT_TEAM: ""
     ENABLE_HARDENED_RUNTIME: YES
 
+packages:
+  AudioRecorder:
+    path: Packages/AudioRecorder
+  Core:
+    path: Packages/Core
+  Hotkey:
+    path: Packages/Hotkey
+  LLMCleanup:
+    path: Packages/LLMCleanup
+  MenuBarUI:
+    path: Packages/MenuBarUI
+  ModelStore:
+    path: Packages/ModelStore
+  Permissions:
+    path: Packages/Permissions
+  Settings:
+    path: Packages/Settings
+  SettingsUI:
+    path: Packages/SettingsUI
+  TextInjector:
+    path: Packages/TextInjector
+  Transcription:
+    path: Packages/Transcription
+
 targets:
   yap:
     type: application
@@ -41,3 +65,15 @@ targets:
         PRODUCT_NAME: yap
         MARKETING_VERSION: "0.0.1"
         CURRENT_PROJECT_VERSION: "1"
+    dependencies:
+      - package: AudioRecorder
+      - package: Core
+      - package: Hotkey
+      - package: LLMCleanup
+      - package: MenuBarUI
+      - package: ModelStore
+      - package: Permissions
+      - package: Settings
+      - package: SettingsUI
+      - package: TextInjector
+      - package: Transcription
