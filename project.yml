@@ -1,8 +1,9 @@
 name: yap
 options:
   bundleIdPrefix: com.donadelicc
+  transitivelyLinkDependencies: true
   deploymentTarget:
-    macOS: "13.0"
+    macOS: "14.0"
   createIntermediateGroups: true
   generateEmptyDirectories: true
 
@@ -13,6 +14,7 @@ settings:
     CODE_SIGN_IDENTITY: "-"
     DEVELOPMENT_TEAM: ""
     ENABLE_HARDENED_RUNTIME: YES
+    SWIFT_ENABLE_EXPLICIT_MODULES: NO
 
 packages:
   Core:
@@ -29,32 +31,59 @@ packages:
     path: Packages/AudioRecorder
   TextInjector:
     path: Packages/TextInjector
+  MenuBarUI:
+    path: Packages/MenuBarUI
+  SettingsUI:
+    path: Packages/SettingsUI
+  WhisperKit:
+    url: https://github.com/argmaxinc/WhisperKit
+    exactVersion: 0.14.0
+  mlx-swift-examples:
+    url: https://github.com/ml-explore/mlx-swift-examples
+    exactVersion: 2.25.7
+  swift-numerics:
+    url: https://github.com/apple/swift-numerics
+    from: 1.0.0
 
 targets:
   Transcription:
     type: library.static
     platform: macOS
-    deploymentTarget: "13.0"
+    deploymentTarget: "14.0"
     sources:
-      - path: Packages/Transcription/Sources/Transcription/Transcriber.swift
+      - path: Packages/Transcription/Sources/Transcription
     dependencies:
       - package: Core
       - package: ModelStore
+      - package: WhisperKit
 
   LLMCleanup:
     type: library.static
     platform: macOS
-    deploymentTarget: "13.0"
+    deploymentTarget: "14.0"
     sources:
-      - path: Packages/LLMCleanup/Sources/LLMCleanup/TextCleaner.swift
+      - path: Packages/LLMCleanup/Sources/LLMCleanup
     dependencies:
       - package: Core
       - package: ModelStore
+      - package: mlx-swift-examples
+        product: MLXLLM
+      - package: mlx-swift-examples
+        product: MLXLMCommon
+      - package: swift-numerics
+        product: Numerics
+      - package: swift-numerics
+        product: RealModule
+      - package: swift-numerics
+        product: ComplexModule
+    settings:
+      base:
+        OTHER_SWIFT_FLAGS: "$(inherited) -Xcc -fmodule-map-file=$(BUILD_DIR)/../../SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include/module.modulemap -Xcc -I$(BUILD_DIR)/../../SourcePackages/checkouts/swift-numerics/Sources/_NumericsShims/include -Xcc -fmodule-map-file=$(BUILD_DIR)/../../SourcePackages/checkouts/mlx-swift/Source/Cmlx/include/module.modulemap -Xcc -I$(BUILD_DIR)/../../SourcePackages/checkouts/mlx-swift/Source/Cmlx/include"
 
   yap:
     type: application
     platform: macOS
-    deploymentTarget: "13.0"
+    deploymentTarget: "14.0"
     sources:
       - path: App
     info:
@@ -87,11 +116,19 @@ targets:
       - target: Transcription
       - target: LLMCleanup
       - package: TextInjector
+      - package: MenuBarUI
+      - package: SettingsUI
+      - package: swift-numerics
+        product: Numerics
+      - package: swift-numerics
+        product: RealModule
+      - package: swift-numerics
+        product: ComplexModule
 
   yapTests:
     type: bundle.unit-test
     platform: macOS
-    deploymentTarget: "13.0"
+    deploymentTarget: "14.0"
     sources:
       - path: AppTests
     settings:
@@ -108,3 +145,11 @@ targets:
       - target: Transcription
       - target: LLMCleanup
       - package: TextInjector
+      - package: MenuBarUI
+      - package: SettingsUI
+      - package: swift-numerics
+        product: Numerics
+      - package: swift-numerics
+        product: RealModule
+      - package: swift-numerics
+        product: ComplexModule
