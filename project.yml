@@ -14,7 +14,43 @@ settings:
     DEVELOPMENT_TEAM: ""
     ENABLE_HARDENED_RUNTIME: YES
 
+packages:
+  Core:
+    path: Packages/Core
+  Settings:
+    path: Packages/Settings
+  Permissions:
+    path: Packages/Permissions
+  ModelStore:
+    path: Packages/ModelStore
+  Hotkey:
+    path: Packages/Hotkey
+  AudioRecorder:
+    path: Packages/AudioRecorder
+  TextInjector:
+    path: Packages/TextInjector
+
 targets:
+  Transcription:
+    type: library.static
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: Packages/Transcription/Sources/Transcription/Transcriber.swift
+    dependencies:
+      - package: Core
+      - package: ModelStore
+
+  LLMCleanup:
+    type: library.static
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: Packages/LLMCleanup/Sources/LLMCleanup/TextCleaner.swift
+    dependencies:
+      - package: Core
+      - package: ModelStore
+
   yap:
     type: application
     platform: macOS
@@ -41,3 +77,34 @@ targets:
         PRODUCT_NAME: yap
         MARKETING_VERSION: "0.0.1"
         CURRENT_PROJECT_VERSION: "1"
+    dependencies:
+      - package: Core
+      - package: Settings
+      - package: Permissions
+      - package: ModelStore
+      - package: Hotkey
+      - package: AudioRecorder
+      - target: Transcription
+      - target: LLMCleanup
+      - package: TextInjector
+
+  yapTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: AppTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: yap
+      - package: Core
+      - package: Settings
+      - package: Permissions
+      - package: ModelStore
+      - package: Hotkey
+      - package: AudioRecorder
+      - target: Transcription
+      - target: LLMCleanup
+      - package: TextInjector
