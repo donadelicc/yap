@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Cache SPM
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: spm-${{ hashFiles('**/Package.resolved', '**/Package.swift') }}
+
+      - name: Build all packages
+        run: |
+          set -e
+          for pkg in Packages/*/; do
+            if [ -f "$pkg/Package.swift" ]; then
+              echo "Building $pkg"
+              (cd "$pkg" && swift build)
+            fi
+          done
+
+      - name: Test all packages
+        run: |
+          set -e
+          for pkg in Packages/*/; do
+            if [ -f "$pkg/Package.swift" ]; then
+              echo "Testing $pkg"
+              (cd "$pkg" && swift test)
+            fi
+          done
+
+      - name: Generate Xcode project
+        run: ./bootstrap.sh
+
+      - name: Build Xcode app
+        run: |
+          xcodebuild \
+            -project yap.xcodeproj \
+            -scheme yap \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            build
